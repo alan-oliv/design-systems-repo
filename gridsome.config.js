@@ -9,7 +9,14 @@ module.exports = {
   siteUrl: 'https://jadlimcaco.github.io',
   titleTemplate: '%s',
   transformers: {
-    remark: {}
+    remark: {
+      externalLinksTarget: '_blank',
+      externalLinksRel: ['nofollow', 'noopener', 'noreferrer'],
+      anchorClassName: 'icon icon-link',
+      plugins: [
+        // ...global plugins
+      ]
+    }
   },
   icon: {
     favicon: './src/assets/images/favicon.png',
@@ -17,6 +24,11 @@ module.exports = {
   },
 
   plugins: [
+    /* Netlify CMS
+    ========================================== */
+    {
+      use: 'gridsome-plugin-netlify-cms',
+    },
     /* Purge CSS
     ========================================== */
     {
@@ -27,7 +39,7 @@ module.exports = {
     {
       use: "@gridsome/source-filesystem",
       options: {
-        path: "content/books/**/*.md",
+        path: "content/books/*.md",
         typeName: "Books",
         route: '/:slug',
       }
@@ -37,7 +49,7 @@ module.exports = {
     {
       use: "@gridsome/source-filesystem",
       options: {
-        path: "content/talks/**/*.md",
+        path: "content/talks/*.md",
         typeName: "Talks",
         route: '/:slug',
       }
@@ -47,7 +59,7 @@ module.exports = {
     {
       use: "@gridsome/source-filesystem",
       options: {
-        path: "content/tools/**/*.md",
+        path: "content/tools/*.md",
         typeName: "Tools",
         route: '/:slug',
       }
@@ -75,9 +87,39 @@ module.exports = {
     {
       use: "@gridsome/source-filesystem",
       options: {
-        path: "content/design-systems/**/*.md",
+        path: "content/design-systems/*.md",
         typeName: "Systems",
         route: '/:slug',
+      }
+    },
+     /* Image Path fix for Netlify
+    ========================================== */
+    {
+      use: 'gridsome-plugin-netlify-cms-paths',
+      options: {
+        contentTypes: ['Systems'],
+        coverField: 'image'
+      }
+    },
+    {
+      use: 'gridsome-plugin-netlify-cms-paths',
+      options: {
+        contentTypes: ['Books'],
+        coverField: 'image'
+      }
+    },
+    {
+      use: 'gridsome-plugin-netlify-cms-paths',
+      options: {
+        contentTypes: ['Talks'],
+        coverField: 'image'
+      }
+    },
+    {
+      use: 'gridsome-plugin-netlify-cms-paths',
+      options: {
+        contentTypes: ['Tools'],
+        coverField: 'image'
       }
     },
     /* Google Analytics
